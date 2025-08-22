@@ -1,0 +1,172 @@
+body {
+    font-family: sans-serif;
+        background: url("https://static.vecteezy.com/system/resources/thumbnails/038/811/293/small_2x/ai-generated-beautiful-background-for-garden-spring-party-advertising-free-photo.jpeg")
+          no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(240, 255, 240, 0.6); /* faded mint green, 30% visible */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.selection-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.result-container {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    min-height: 150px;
+}
+
+.plant-pot {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.pot {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 60px;
+    background-color: #d2b48c;
+    border-radius: 0 0 20px 20px;
+}
+
+.plant {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 0;
+}
+
+.stem {
+    width: 100%;
+    height: 100%;
+    background-color: #8b4513;
+    transform-origin: bottom;
+}
+
+.leaf {
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    background-color: #228b22;
+    border-radius: 50%;
+}
+
+.leaf-1 {
+    bottom: 20px;
+    left: -20px;
+    transform: rotate(-45deg);
+}
+
+.leaf-2 {
+    bottom: 30px;
+    right: -20px;
+    transform: rotate(45deg);
+}
+
+#result-text {
+    margin-top: 1rem;
+}
+
+/* Animations */
+.plant.grows .stem {
+    animation: grow 2s forwards;
+}
+
+.plant.grows .leaf {
+    animation: grow-leaf 1s 1s forwards;
+    opacity: 0;
+}
+
+.plant.wilts .stem {
+    animation: wilt 2s forwards;
+}
+
+.plant.wilts .leaf {
+    animation: wilt-leaf 2s forwards;
+}
+
+@keyframes grow {
+    from {
+        height: 0;
+    }
+    to {
+        height: 80px;
+    }
+}
+
+@keyframes grow-leaf {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes wilt {
+    from {
+        transform: rotate(0);
+        height: 80px;
+    }
+    to {
+        transform: rotate(15deg);
+        height: 60px;
+        background-color: #5a3a1a;
+    }
+}
+
+@keyframes wilt-leaf {
+    from {
+        background-color: #228b22;
+        transform: rotate(0deg);
+    }
+    to {
+        background-color: #a0522d;
+        transform: rotate(30deg) translateY(20px);
+    }
+}
