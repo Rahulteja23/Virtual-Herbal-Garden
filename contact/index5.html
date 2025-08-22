@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Virtual Herbal Garden - Feedback</title>
+    <!-- Font Awesome for the success icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: url("https://png.pngtree.com/thumb_back/fh260/background/20240601/pngtree-bamboo-shoots-in-the-garden-park-with-blur-grass-background-image_15736553.jpg")
+          no-repeat center center/cover;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        transition: filter 0.3s;
+      }
+      .container.blurry {
+        filter: blur(5px);
+      }
+      h2 {
+        text-align: center;
+        color: #2e7d32;
+        font-size: 28px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-top: 15px;
+        color: #1b5e20;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 10px;
+        border: 1px solid #81c784;
+        outline: none;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #388e3c;
+      }
+      .rating {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+      .rating input {
+        width: auto;
+      }
+      button {
+        margin-top: 20px;
+        background: #43a047;
+        color: white;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        width: 100%;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #2e7d32;
+      }
+
+      /* --- MODAL STYLES --- */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-content {
+        background-color: #fff;
+        margin: auto;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: modal-appear 0.4s ease-out;
+      }
+      @keyframes modal-appear {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+      }
+      .modal-content .icon {
+        font-size: 4em;
+        color: #43a047;
+        margin-bottom: 20px;
+      }
+      .modal-content h3 {
+        margin-top: 0;
+        font-size: 1.5em;
+        color: #333;
+      }
+      .modal-content p {
+        color: #666;
+      }
+      .modal-close-btn {
+        margin-top: 20px;
+        background: #81c784;
+        color: white;
+        padding: 10px 20px;
+        font-size: 1em;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .modal-close-btn:hover {
+        background: #66bb6a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="feedback-container">
+      <h2>🌿 Virtual Herbal Garden Feedback 🌿</h2>
+      <!-- 
+        MODIFICATION 1: 
+        Add the 'action' attribute with your Formspree URL and set 'method' to "POST".
+        REPLACE "YOUR_UNIQUE_URL_HERE" with the URL from Formspree.
+      -->
+      <form id="feedback-form" action="https://formspree.io/f/mblknkkz" method="POST">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required />
+
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="experience">How was your experience?</label>
+        <select id="experience" name="experience">
+          <option>Excellent 🌟</option>
+          <option>Good 👍</option>
+          <option>Average 🙂</option>
+          <option>Needs Improvement 👎</option>
+        </select>
+
+        <label>Rate our Herbal Garden:</label>
+        <div class="rating">
+          <label><input type="radio" name="rate" value="1" /> 1</label>
+          <label><input type="radio" name="rate" value="2" /> 2</label>
+          <label><input type="radio" name="rate" value="3" /> 3</label>
+          <label><input type="radio" name="rate" value="4" /> 4</label>
+          <label><input type="radio" name="rate" value="5" /> 5</label>
+        </div>
+
+        <label for="favorite">Your Favorite Herb:</label>
+        <input type="text" id="favorite" name="favorite_herb" placeholder="e.g., Tulsi, Aloe Vera" />
+
+        <label for="suggestions">Suggestions for Us:</label>
+        <textarea
+          id="suggestions"
+          name="suggestions"
+          rows="4"
+          placeholder="Share your thoughts..."
+        ></textarea>
+
+        <label for="newsletter">Would you like to join our Herbal Newsletter?</label>
+        <select id="newsletter" name="newsletter_signup">
+          <option>Yes, sign me up 🌱</option>
+          <option>No, thank you ❌</option>
+        </select>
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+
+    <!-- SUCCESS POP-UP MODAL (No changes needed here) -->
+    <div id="success-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Feedback Sent!</h3>
+            <p>Thank you for helping our garden grow. We've received your feedback!</p>
+            <button id="close-modal-btn" class="modal-close-btn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('feedback-form');
+        const modal = document.getElementById('success-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const container = document.getElementById('feedback-container');
+
+        // MODIFICATION 2:
+        // This function will now handle the pop-up after a successful submission.
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const data = new FormData(event.target);
+            
+            // This 'fetch' sends the data to Formspree in the background
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // If Formspree says everything is okay, show the pop-up
+                    modal.style.display = 'flex';
+                    container.classList.add('blurry');
+                    form.reset(); // Clear the form
+                } else {
+                    // If there was an error, show an error message
+                    alert("Oops! There was a problem submitting your form.");
+                }
+            }).catch(error => {
+                alert("Oops! There was a problem submitting your form.");
+            });
+        }
+
+        form.addEventListener("submit", handleSubmit);
+
+        const closeModal = function() {
+            modal.style.display = 'none';
+            container.classList.remove('blurry');
+        };
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+  </body>
+</html>
