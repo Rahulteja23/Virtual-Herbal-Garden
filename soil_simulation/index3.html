@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Growth Simulator</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Plant Growth Simulator</h1>
+        <div class="selection-container">
+            <div class="dropdown-container">
+                <label for="plant-select">Select a Plant:</label>
+                <select id="plant-select">
+                    <option value="">--Please choose a plant--</option>
+                    <option value="Ashwagandha">Ashwagandha</option>
+                    <option value="Tulsi">Tulsi</option>
+                    <option value="Turmeric">Turmeric</option>
+                    <option value="Clove">Clove</option>
+                    <option value="Cardamom">Cardamom</option>
+                </select>
+            </div>
+            <div class="dropdown-container">
+                <label for="soil-select">Select a Soil Type:</label>
+                <select id="soil-select">
+                    <option value="">--Please choose a soil--</option>
+                    <option value="Sandy">Sandy</option>
+                    <option value="Clay">Clay</option>
+                    <option value="Loamy">Loamy</option>
+                    <option value="Rocky">Rocky</option>
+                </select>
+            </div>
+        </div>
+        <div id="result" class="result-container">
+            <div class="plant-pot">
+                <div class="pot"></div>
+                <div class="plant">
+                    <div class="stem"></div>
+                    <div class="leaf leaf-1"></div>
+                    <div class="leaf leaf-2"></div>
+                </div>
+            </div>
+            <p id="result-text"></p>
+        </div>
+    </div>
+    <script src="javascript3.js"></script>
+</body>
+</html>
