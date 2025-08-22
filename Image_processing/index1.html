@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Leaf Identification</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+<video autoplay muted loop playsinline class="video-bg">
+    <source src="1171471-hd_1920_1080_30fps.mp4" type="video/mp4">
+    <source src="your-video.webm" type="video/webm">
+    Your browser does not support HTML5 video.
+  </video>
+    <h1>Plant Leaf Identification</h1>
+    <div id="status">Loading Model... Please Wait.</div>
+    <div class="container">
+        <video id="video" width="640" height="480" autoplay></video>
+        <!-- The capture button is less important now, as we can predict in real-time -->
+        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        <div id="result">
+            <h2>Identified Plant:</h2>
+            <p id="plant-name">...</p>
+        </div>
+    </div>
+
+    <!-- Load TensorFlow.js and the Teachable Machine Image library -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
+    <!-- Your custom script -->
+    <script src="javascript1.js"></script>
+</body>
+</html>
