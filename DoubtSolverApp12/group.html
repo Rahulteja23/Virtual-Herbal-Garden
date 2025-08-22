@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <charset="UTF-8" />
+  <title>Public Doubt Group</title>
+  <style>
+body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding-top: 40px;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Video background */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;  /* same as background-size: cover */
+      z-index: -1;        /* send it behind content */
+    }
+    .group-container {
+      background-color: rgba(240, 255, 240, 0.8);
+      padding: 30px;
+      width: 800px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .chat-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      height: 300px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+    .chat-box .message {
+      margin-bottom: 10px;
+    }
+    .chat-box b {
+      color: #333;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 14px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<video autoplay muted loop playsinline class="video-bg">
+    <source src="1777892-hd_1280_720_25fps.mp4" type="video/mp4">
+    <source src="your-video.webm" type="video/webm">
+    <!-- fallback image if video doesn't load -->
+    Your browser does not support HTML5 video.
+  </video>
+
+  <div class="group-container">
+    <h2>Public Doubt Group</h2>
+    <div id="chatBox" class="chat-box"></div>
+    <input type="text" id="doubtInput" placeholder="Raise your doubt..." />
+    <button onclick="sendDoubt()">Send</button>
+  </div>
+  <div id="notifyBox">
+    <b>Question:<br />
+    <em id="notifyText"></em><br />
+  </div>
+  <script>
+    let answered = false;
+    function sendDoubt() {
+      const doubt = document.getElementById("doubtInput").value.trim();
+      if (!doubt) return;
+      const chatBox = document.getElementById("chatBox");
+      chatBox.innerHTML += `<div class='message'><b>You:</b> ${doubt}</div>`;
+      document.getElementById("doubtInput").value = "";
+      notifyOnlineUsers(doubt);
+      answered = false;
+      setTimeout(() => aiFallbackAnswer(doubt), 000);
+    }
+    function notifyOnlineUsers(doubt) {
+      const box = document.getElementById("notifyBox");
+      const text = document.getElementById("notifyText");
+      text.innerText = `"${doubt}"`;
+      box.style.display = "block";
+    }
+    function acceptDoubt(user, doubt) {
+      if (answered) return;
+      answered = true;
+      let userAnswer = prompt(`${user}, enter your answer:\n"${doubt}"`);
+      if (userAnswer) {
+        sendToAI(userAnswer, user);
+        document.getElementById("notifyBox").style.display = "none";
+      }
+    }
+    async function sendToAI(answer, user) {
+      const prompt = `The user "${user}" answered: ${answer}. Is this a correct response to the original doubt? Reply in 1 sentence.`;
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-3.5-turbo",
+          messages: [
+            { role: "system", content: "You're an AI that helps evaluate and answer doubts." },
+            { role: "user", content: prompt }
+          ]
+        })
+      });
+      const data = await response.json();
+      const aiReply = data.choices[0].message.content;
+      const chatBox = document.getElementById("chatBox");
+      chatBox.innerHTML += `<div class='message'><b>AI:</b> ${aiReply}</div>`;
+    }
+    async function aiFallbackAnswer(doubt) {
+      if (answered) return;
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-3.5-turbo",
+          messages: [
+            { role: "system", content: "You're a helpful assistant answering student doubts in a group." },
+            { role: "user", content: doubt }
+          ]
+        })
+      });
+      const data = await response.json();
+      const aiReply = data.choices[0].message.content;
+      const chatBox = document.getElementById("chatBox");
+      chatBox.innerHTML += `<div class='message'><b>AI (Fallback):</b> ${aiReply}</div>`;
+    }
+  </script>
+</body>
+</html>
