@@ -17,32 +17,28 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        try {
-            Connection conn = DBConnection.getConnection();
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            response.sendRedirect("login.html?error=missing");
+            return;
+        }
 
-            // Validate user
+        try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT username FROM users WHERE email=? AND password=?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, email);
-            stmt.setString(2, password);
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, email.trim());
+                stmt.setString(2, password);
 
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                // User found
-                String username = rs.getString("username");
-
-                HttpSession session = request.getSession();
-                session.setAttribute("username", username);  // Used in group.jsp
-
-                response.sendRedirect("group.jsp");
-            } else {
-                // Login failed
-                response.sendRedirect("login.html?error=1");
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        String username = rs.getString("username");
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("username", username);
+                        response.sendRedirect("group.jsp");
+                    } else {
+                        response.sendRedirect("login.html?error=invalid");
+                    }
+                }
             }
-
-            conn.close();
-
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Error occurred: " + e.getMessage());
